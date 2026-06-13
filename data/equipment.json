@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "equipment": [
+    {
+      "id": "basic_laser_upgrade",
+      "display_name": "Basic Laser Upgrade",
+      "slot_type": "weapon",
+      "rarity": "common",
+      "stat_modifiers": {
+        "fire_cooldown": { "add": -0.02, "pct": 0.0 }
+      },
+      "unlock": {
+        "type": "default"
+      },
+      "abilities": []
+    },
+    {
+      "id": "standard_thrusters",
+      "display_name": "Standard Thrusters",
+      "slot_type": "engine",
+      "rarity": "common",
+      "stat_modifiers": {
+        "move_speed": { "add": 0.5, "pct": 0.05 }
+      },
+      "unlock": {
+        "type": "default"
+      },
+      "abilities": []
+    },
+    {
+      "id": "nanite_hull_repairer",
+      "display_name": "Nanite Hull Repairer",
+      "slot_type": "utility",
+      "rarity": "rare",
+      "stat_modifiers": {
+        "max_hull": { "add": 15, "pct": 0.0 }
+      },
+      "unlock": {
+        "type": "default"
+      },
+      "abilities": []
+    }
+  ]
+}

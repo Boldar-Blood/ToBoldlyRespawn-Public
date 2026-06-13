@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "maps": [
+    {
+      "id": "map_001_retrograde_escape",
+      "display_name": "Retrograde Escape",
+      "description": "The current flipped-chase demo scenario.",
+      "difficulty_support": [
+        "easy",
+        "medium",
+        "hard"
+      ],
+      "waves": [
+        "wave_1",
+        "wave_2",
+        "wave_3",
+        "wave_4_boss"
+      ],
+      "enemy_pool": [
+        "drone",
+        "speeder",
+        "zigzag",
+        "mine",
+        "frigate",
+        "missile_boat"
+      ],
+      "boss": "boss",
+      "rewards": {
+        "first_completion": [
+          "resource_salvage_small"
+        ],
+        "repeat_completion": []
+      },
+      "unlock_requirements": {}
+    }
+  ]
+}
