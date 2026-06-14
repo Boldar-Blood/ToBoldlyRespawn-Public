@@ -1,0 +1,20 @@
+{
+  "schema_version": 3,
+  "selected_ship_id": "default_retreat_craft",
+  "unlocked_ships": [
+    "default_retreat_craft"
+  ],
+  "inventory": {
+    "equipment": [],
+    "equipped_by_ship": {},
+    "resources": {},
+    "cosmetics": []
+  },
+  "progression": {
+    "completed_maps": {},
+    "awarded_unique_rewards": [],
+    "quest_flags": {},
+    "story_flags": {},
+    "research": {}
+  }
+}
