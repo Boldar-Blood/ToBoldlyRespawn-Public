@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "rewards": [
+    {
+      "id": "resource_salvage_small",
+      "display_name": "Small Salvage Cache",
+      "type": "resource_grant",
+      "resource_id": "salvage",
+      "amount": 25,
+      "unique": false
+    }
+  ]
+}

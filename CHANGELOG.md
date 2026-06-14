@@ -1,0 +1,70 @@
+# Changelog
+
+Public-facing changes for *To Boldly Respawn* are summarized here.
+
+## 0.2.0a2 - 2026-06-14
+
+This alpha preview supersedes `0.2.0a1` with runtime launch fixes, broader visual runtime validation, and multi-platform release packaging preparation. It is not a 1.0 release and does not claim the full planned game scope is complete.
+
+### Added
+
+- Visual runtime validation for active enemies, projectiles, pickups, visual effects, and presentation synchronization.
+- Windows, Linux, and macOS release ZIP packaging preparation.
+- Release workflow gates for visual runtime checks before packaged builds are published.
+
+### Changed
+
+- Updated package version metadata to `0.2.0a2`.
+- Updated release packaging to prepare all configured desktop platform ZIPs.
+- Updated release publishing so the same packaged assets can be attached to both the source and public releases.
+
+### Fixed
+
+- Fixed pickup rendering during active gameplay.
+- Fixed pickup texture selection during active gameplay.
+- Fixed enemy trail rendering during active gameplay.
+- Fixed release readiness coverage for visual runtime interface mismatches.
+
+## 0.2.0a1 - 2026-06-12
+
+This alpha preview packages the post-Phase-5 gameplay foundation. It is not a 1.0 release and does not claim the full planned game scope is complete.
+
+### Added
+
+- Data-driven foundations for ships, equipment, player profile/inventory, maps, story nodes, quests, rewards, progression logging, and event-pack manifests.
+- Story popup presentation, post-run quest integration, reward grant foundations, and replay-oriented story/quest planning.
+- Accessibility-scale layout checks for settings and dynamic button text.
+- Public source snapshot publication for the alpha preview.
+
+### Changed
+
+- Updated package version metadata to `0.2.0a1`.
+- Tightened the public source snapshot to include only runtime/source/package files and public-facing prose.
+- Improved release packaging compatibility with current setuptools validation.
+
+### Fixed
+
+- Fixed settings layout regressions where long dynamic labels could overflow visible button text.
+- Fixed public snapshot validation for generated preview contents.
+- Cleaned copied runtime files for the public alpha preview.
+
+## 0.1.1 - 2026-06-01
+
+### Added
+
+- Curated sprite alpha normalization and validation checks.
+- Regression coverage for generated/curated asset boundaries and orientation behavior.
+
+### Changed
+
+- Scoped strict transparent-pixel checks to tracked curated sprites.
+- Improved actor visual turning behavior for player and enemy movement.
+
+### Fixed
+
+- Cleaned curated UI frame transparency.
+- Removed obsolete UI texture references from active presentation paths.
+
+## 0.1.0 - 2026-05-29
+
+Initial public prototype milestone with responsive UI/HUD work, curated image pipeline foundations, procedural fallback assets, and Windows release build preparation.
