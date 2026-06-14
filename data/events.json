@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "event_packs": [
+    {
+      "id": "event_pack_001_training_signals",
+      "display_name": "Training Signals",
+      "description": "Disabled sample event pack manifest used to validate the event-pack schema foundation.",
+      "enabled": false,
+      "map_ids": [
+        "map_001_retrograde_escape"
+      ],
+      "quest_ids": [
+        "quest_001_survival_training"
+      ],
+      "story_ids": [
+        "story_001_intro_chase"
+      ],
+      "reward_ids": [
+        "resource_salvage_small"
+      ],
+      "store_ids": [],
+      "tags": [
+        "phase_5i_foundation"
+      ],
+      "starts_at": null,
+      "ends_at": null
+    }
+  ]
+}
