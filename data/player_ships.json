@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "ships": [
+    {
+      "id": "default_retreat_craft",
+      "display_name": "Default Retreat Craft",
+      "description": "Reliable baseline ship used by the current 0.1.x prototype.",
+      "unlock": {
+        "type": "default"
+      },
+      "stats": {
+        "max_hull": 100,
+        "move_speed": 10.0,
+        "fire_cooldown": 0.15,
+        "missile_capacity": 3,
+        "bomb_capacity": 1
+      },
+      "equipment_slots": [
+        "weapon",
+        "engine",
+        "utility"
+      ],
+      "abilities": [],
+      "asset_keys": {
+        "sprite": "player",
+        "model_25d": null
+      }
+    },
+    {
+      "id": "gale_vanguard",
+      "display_name": "Gale Vanguard",
+      "description": "Lightweight scout vessel designed for rapid evasion, but with weaker hull integrity.",
+      "unlock": {
+        "type": "progression"
+      },
+      "stats": {
+        "max_hull": 60,
+        "move_speed": 15.0,
+        "fire_cooldown": 0.12,
+        "missile_capacity": 2,
+        "bomb_capacity": 1
+      },
+      "equipment_slots": [
+        "weapon",
+        "engine",
+        "utility"
+      ],
+      "abilities": [],
+      "asset_keys": {
+        "sprite": "player",
+        "model_25d": null
+      }
+    },
+    {
+      "id": "heavy_escort_craft",
+      "display_name": "Heavy Escort Craft",
+      "description": "Reinforced defense ship. Heavy armor and increased ammo capacity, but significantly reduced maneuverability.",
+      "unlock": {
+        "type": "progression"
+      },
+      "stats": {
+        "max_hull": 160,
+        "move_speed": 7.0,
+        "fire_cooldown": 0.20,
+        "missile_capacity": 5,
+        "bomb_capacity": 3
+      },
+      "equipment_slots": [
+        "weapon",
+        "engine",
+        "utility"
+      ],
+      "abilities": [],
+      "asset_keys": {
+        "sprite": "player",
+        "model_25d": null
+      }
+    }
+  ]
+}
