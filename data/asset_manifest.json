@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "runtime_policy": "Prefer curated PNGs in data/sprites; fall back to procedural PNGs in data only when curated art is absent.",
+  "requirements": {
+    "format": "PNG",
+    "background": "transparent except for explicitly opaque background art",
+    "recommended_source_size": [
+      1024,
+      1024
+    ],
+    "runtime_ship_size": [
+      512,
+      512
+    ],
+    "runtime_ui_size": "power-of-two where practical",
+    "ip_safety": "original assets only; no protected logos, copied ship silhouettes, franchise trade dress, or trademark text"
+  },
+  "textures": {
+    "menu_background": [
+      "sprites/backgrounds/menu_background.png",
+      "start_menu_background.png"
+    ],
+    "title_banner": [
+      "sprites/title/title_banner.png",
+      "title_banner.png"
+    ],
+    "player": [
+      "sprites/ships/player_ship.png",
+      "player_skin.png"
+    ],
+    "player_hull_100": [
+      "sprites/ships/player_ship.png",
+      "player_skin.png"
+    ],
+    "player_hull_75": [
+      "sprites/ships/player_ship_damaged_75.png",
+      "player_hull_75.png",
+      "player_skin.png"
+    ],
+    "player_hull_50": [
+      "sprites/ships/player_ship_damaged_50.png",
+      "player_hull_50.png",
+      "player_skin.png"
+    ],
+    "player_hull_25": [
+      "sprites/ships/player_ship_damaged_25.png",
+      "player_hull_25.png",
+      "player_skin.png"
+    ],
+    "player_hull_critical": [
+      "sprites/ships/player_ship_critical.png",
+      "player_hull_critical.png",
+      "player_skin.png"
+    ],
+    "enemy_drone": [
+      "sprites/ships/chaser_drone.png",
+      "enemy_drone.png",
+      "drone_skin.png"
+    ],
+    "enemy_speeder": [
+      "sprites/ships/speeder.png",
+      "enemy_speeder.png",
+      "enemy_drone.png",
+      "drone_skin.png"
+    ],
+    "enemy_zigzag": [
+      "sprites/ships/zigzag_cutter.png",
+      "enemy_zigzag.png",
+      "enemy_drone.png",
+      "drone_skin.png"
+    ],
+    "enemy_frigate": [
+      "sprites/ships/policy_frigate.png",
+      "enemy_frigate.png",
+      "enemy_drone.png",
+      "drone_skin.png"
+    ],
+    "enemy_missile_boat": [
+      "sprites/ships/deadline_missile_boat.png",
+      "enemy_missile_boat.png",
+      "enemy_drone.png",
+      "drone_skin.png"
+    ],
+    "enemy_mine": [
+      "sprites/ships/expense_mine.png",
+      "enemy_mine.png",
+      "enemy_drone.png",
+      "drone_skin.png"
+    ],
+    "boss_phase_1": [
+      "sprites/ships/audit_dreadnought_phase_1.png",
+      "dreadnought_phase_1.png",
+      "boss_skin.png"
+    ],
+    "boss_phase_2": [
+      "sprites/ships/audit_dreadnought_phase_2.png",
+      "dreadnought_phase_2.png",
+      "dreadnought_phase_1.png",
+      "boss_skin.png"
+    ],
+    "boss_phase_3": [
+      "sprites/ships/audit_dreadnought_phase_3.png",
+      "dreadnought_phase_3.png",
+      "dreadnought_phase_2.png",
+      "boss_skin.png"
+    ],
+    "boss_destroyed": [
+      "sprites/ships/audit_dreadnought_destroyed.png",
+      "dreadnought_destroyed.png",
+      "dreadnought_phase_3.png",
+      "boss_skin.png"
+    ],
+    "ui_panel_glass": [
+      "sprites/ui/panel_glass.png",
+      "ui_panel_glass.png"
+    ],
+    "ui_panel_card": [
+      "sprites/ui/panel_card.png",
+      "ui_panel_card.png"
+    ],
+    "pursuit_gauge": [
+      "sprites/ui/pursuit_gauge.png",
+      "ui_pursuit_gauge.png"
+    ],
+    "icon_player_mini": [
+      "sprites/ui/icon_player_mini.png",
+      "icon_player_mini.png",
+      "sprites/ships/player_ship.png"
+    ],
+    "icon_dreadnought_mini": [
+      "sprites/ui/icon_dreadnought_mini.png",
+      "icon_dreadnought_mini.png",
+      "sprites/ships/audit_dreadnought_phase_1.png"
+    ],
+    "vfx_muzzle_flash": [
+      "sprites/vfx/muzzle_flash.png",
+      "vfx_muzzle_flash.png"
+    ],
+    "vfx_explosion_core": [
+      "sprites/vfx/explosion_core.png",
+      "vfx_explosion_core.png"
+    ],
+    "vfx_explosion_ring": [
+      "sprites/vfx/explosion_ring.png",
+      "vfx_explosion_ring.png"
+    ],
+    "vfx_smoke_puff": [
+      "sprites/vfx/smoke_puff.png",
+      "vfx_smoke_puff.png"
+    ],
+    "vfx_spark": [
+      "sprites/vfx/spark.png",
+      "vfx_spark.png"
+    ],
+    "vfx_shockwave_orange": [
+      "sprites/vfx/shockwave_orange.png",
+      "vfx_shockwave_orange.png"
+    ],
+    "vfx_shockwave_cyan": [
+      "sprites/vfx/shockwave_cyan.png",
+      "vfx_shockwave_cyan.png"
+    ]
+  }
+}

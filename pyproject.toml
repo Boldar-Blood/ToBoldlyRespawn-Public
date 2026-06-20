@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=77.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "space_demo"
+version = "0.3.0a4"
+description = "To Boldly Respawn: A Co-Op Space Disaster (Flipped Chase Space Shooter RPG Demo)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "Boldar-Blood" }
+]
+dependencies = [
+    "panda3d>=1.10.14",
+    "Pillow>=10.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "ruff"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

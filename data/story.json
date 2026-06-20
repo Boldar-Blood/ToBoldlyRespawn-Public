@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "stories": [
+    {
+      "id": "story_001_intro_chase",
+      "display_name": "Proximity Warning",
+      "description": "An introductory transmission from the pursuing fleet command.",
+      "nodes": [
+        {
+          "id": "node_proximity_warning",
+          "speaker": "First Officer",
+          "body": "Captain, long-range sensors detect multiple pursuing drone squadrons climbing fast.",
+          "map_id": "map_001_retrograde_escape",
+          "wave_id": "wave_1",
+          "choices": [
+            {
+              "text": "Evasive maneuvers, steer carefully",
+              "next_node_id": "node_evasion_response",
+              "flags_set": {
+                "evasive_chosen": true
+              },
+              "flags_cleared": [],
+              "reward_ids": []
+            },
+            {
+              "text": "Charge rear laser cannons, let them come",
+              "next_node_id": "node_combat_response",
+              "flags_set": {
+                "combat_chosen": true
+              },
+              "flags_cleared": [],
+              "reward_ids": []
+            }
+          ]
+        },
+        {
+          "id": "node_evasion_response",
+          "speaker": "First Officer",
+          "body": "Steering thrusters optimized. Salvage scanners are online.",
+          "choices": [],
+          "next_node_id": null,
+          "flags_set": {},
+          "flags_cleared": [],
+          "reward_ids": [
+            "resource_salvage_small"
+          ]
+        },
+        {
+          "id": "node_combat_response",
+          "speaker": "First Officer",
+          "body": "Laser banks primed. Press Spacebar to engage pursuers from behind.",
+          "choices": [],
+          "next_node_id": null,
+          "flags_set": {},
+          "flags_cleared": [],
+          "reward_ids": []
+        }
+      ]
+    }
+  ]
+}

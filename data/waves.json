@@ -1,0 +1,26 @@
+{
+  "wave_1": {
+    "duration": 25.0,
+    "max_enemies": 6,
+    "spawn_cooldown": 2.5,
+    "escorts": ["drone"]
+  },
+  "wave_2": {
+    "duration": 25.0,
+    "max_enemies": 10,
+    "spawn_cooldown": 2.0,
+    "escorts": ["drone", "speeder", "mine"]
+  },
+  "wave_3": {
+    "duration": 25.0,
+    "max_enemies": 12,
+    "spawn_cooldown": 1.5,
+    "escorts": ["drone", "speeder", "zigzag", "frigate", "missile_boat"]
+  },
+  "wave_4_boss": {
+    "duration": 9999.0,
+    "max_enemies": 20,
+    "spawn_cooldown": 3.0,
+    "escorts": ["drone", "speeder", "mine", "frigate", "missile_boat", "zigzag"]
+  }
+}

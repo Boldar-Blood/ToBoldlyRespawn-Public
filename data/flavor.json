@@ -1,0 +1,21 @@
+{
+  "menu": {
+    "title": "TO BOLDLY RESPAWN",
+    "subtitle": "A Co-Op Space Disaster",
+    "slogan": "Press ENTER to engage in a Courageous Strategic Retrograde!"
+  },
+  "waves": {
+    "wave_1": "Strategic Retreat 101",
+    "wave_2": "They're Gaining, Throw the Interns Overboard!",
+    "wave_3": "Active Cowardice Mode Engaged",
+    "wave_4": "Middle Management Closes the Gap"
+  },
+  "pickups": {
+    "health": "Collected 'Emergency Duct Tape'! Rear hull integrity repaired by 25.",
+    "speed": "Collected 'Totally Safe Space Snack'! Weapons cooling systems boosted."
+  },
+  "endings": {
+    "gameover": "You have boldly respawned. Command will be deducting this starship from your paycheck.",
+    "victory": "Congratulations, Captain! The audit dreadnought has retreated. The disaster is now slightly further behind us."
+  }
+}

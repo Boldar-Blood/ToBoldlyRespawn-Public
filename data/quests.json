@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "quests": [
+    {
+      "id": "quest_001_survival_training",
+      "display_name": "Survival Training",
+      "description": "Demonstrate sector navigation capability by surviving 30 seconds and collecting scrap.",
+      "objectives": [
+        {
+          "id": "obj_survive",
+          "type": "survive_seconds",
+          "target": 30.0
+        },
+        {
+          "id": "obj_escape_map",
+          "type": "complete_map",
+          "target": 1,
+          "map_id": "map_001_retrograde_escape",
+          "difficulty": "easy"
+        }
+      ],
+      "reward_ids": [
+        "resource_salvage_small"
+      ],
+      "unlock_requirements": {}
+    }
+  ]
+}
