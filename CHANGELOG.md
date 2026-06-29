@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.0a5 - 2026-06-29
+
+This alpha preview packages the Phase 4 calibrated pressure baseline and public-safe workflows for controlled human playtesting.
+
+### Added
+
+- Public-safe CI and release workflows for the public repository.
+- Prefilled in-game playtest feedback intake form pointing to the public repository.
+
+### Changed
+
+- Package version metadata updated to 0.3.0a5.
+- Reworded escape behavior settings-save copy to use "dialog" to improve term hygiene.
+
 ## 0.3.0a4 - 2026-06-20
 
 This alpha preview packages the Phase 3 calibrated pressure baseline for controlled human playtesting while pressure director refinement continues.

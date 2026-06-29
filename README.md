@@ -2,7 +2,7 @@
 
 A humorous, legally safe arcade space-shooter RPG prototype built in Python 3.11+ with Panda3D.
 
-Current public preview: **0.3.0a4**.
+Current public preview: **0.3.0a5**.
 
 ## Gameplay premise
 

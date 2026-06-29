@@ -21,7 +21,7 @@ _prepare_branding_assets()
 
 setup(
     name="ToBoldlyRespawn",
-    version="0.3.0a4",
+    version="0.3.0a5",
     description="To Boldly Respawn: A Co-Op Space Disaster",
     options={
         "build_apps": {
