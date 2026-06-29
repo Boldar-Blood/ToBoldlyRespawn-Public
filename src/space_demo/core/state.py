@@ -155,6 +155,8 @@ class GameStateManager:
         self.assets_downsized = 0
         self.estimated_legal_exposure = 100000.0
         self.no_hit_wave_badge = True
+        self.near_death_count = 0
+        self.was_near_death = False
         
         # Gameplay snapshot tracking counters
         self.defeated_enemy_counts = {}
@@ -186,6 +188,12 @@ class GameStateManager:
         self.active_bark = ""
         self.bark_timer = 0.0
         self.bark_cooldown = 0.0
+
+        # Neutral Pressure Director wiring
+        from space_demo.gameplay.pressure_director import PressureDirector, PressureDirectorDecision
+        policy = getattr(config, "PRESSURE_DIRECTOR_POLICY", "baseline_observer")
+        self.pressure_director = PressureDirector(policy)
+        self.last_pressure_director_decision = PressureDirectorDecision()
 
 
     @property
@@ -285,6 +293,8 @@ class GameStateManager:
         self.intern_active_timer = 0.0
         self.intern_shoot_cooldown = 0.0
         self.boss_active = False
+        self.near_death_count = 0
+        self.was_near_death = False
         if self.difficulty == "easy":
             self.boss_max_hp = 600
         elif self.difficulty == "hard":
@@ -461,6 +471,19 @@ class GameStateManager:
         if getattr(self, "intro_active", False):
             return
 
+        # Update pressure director decision based on current runtime state
+        from space_demo.gameplay.pressure_director import PressureDirectorInputs
+        inputs = PressureDirectorInputs(
+            difficulty=self.difficulty,
+            player_hp=float(self.player_hp),
+            max_hp=float(self.max_hull),
+            chase_gap=float(self.chase_gap),
+            wave_index=int(self.wave_index),
+            critical_gap=float(config.DREADNOUGHT_CRITICAL_GAP),
+            capture_gap=float(self.effective_capture_gap()),
+        )
+        self.last_pressure_director_decision = self.pressure_director.decide(inputs)
+
         self.survival_time += dt
         self.wave_elapsed_time += dt
         
@@ -481,6 +504,9 @@ class GameStateManager:
             gain_rate = 1.2
         elif self.difficulty == "hard":
             gain_rate = 3.0
+
+        if self.last_pressure_director_decision:
+            gain_rate *= self.last_pressure_director_decision.gain_rate_multiplier
         
         closure = gain_rate * dt
         self.chase_pressure_ledger["raw_chase_closure_distance"] += closure
@@ -964,6 +990,11 @@ class GameStateManager:
             if self.player_hp <= 0:
                 self.player_hp = 0
                 self.trigger_gameover()
+            else:
+                currently_near_death = (0 < self.player_hp <= self.max_hull * 0.25)
+                if currently_near_death and not self.was_near_death:
+                    self.near_death_count += 1
+                self.was_near_death = currently_near_death
             return
 
         self.player_hp -= amount
@@ -972,8 +1003,14 @@ class GameStateManager:
         if self.player_hp <= 0:
             self.player_hp = 0
             self.trigger_gameover()
+            self.was_near_death = False
         else:
             self.trigger_bark("hit")
+            currently_near_death = (0 < self.player_hp <= self.max_hull * 0.25)
+            if currently_near_death and not self.was_near_death:
+                self.near_death_count += 1
+            self.was_near_death = currently_near_death
+            
             if self.player_hp <= 30:
                 from space_demo.core.events import NotificationEvent
                 self.post_event(NotificationEvent(
@@ -988,8 +1025,11 @@ class GameStateManager:
         self.player_hp += amount
         if self.player_hp > self.max_hull:
             self.player_hp = self.max_hull
+        self.was_near_death = (0 < self.player_hp <= self.max_hull * 0.25)
 
     def push_back_chaser(self, amount, event_type="unknown", weapon_type="unknown"):
+        if hasattr(self, "last_pressure_director_decision") and self.last_pressure_director_decision:
+            amount *= self.last_pressure_director_decision.pushback_multiplier
         requested_raw = amount
         if self.boss_active:
             # Scale down pushback to maintain high tension during the final fight:
@@ -1140,7 +1180,7 @@ class GameStateManager:
                 # Boss takes massive damage
                 enemy.hp -= 150
                 self.boss_hp = enemy.hp
-                self.post_event(EnemyHitEvent("boss", 150, enemy.x, enemy.y))
+                self.post_event(EnemyHitEvent("boss", 150, enemy.x, enemy.y, proj_type="bomb"))
                 safe_popup("-150 HP", enemy.x, enemy.y, color=(1.0, 0.8, 0.2, 1.0), scale=0.48, lifetime=1.3)
                 print(f"[Combat] Boss blasted by Executive Decision! HP: {enemy.hp}")
                 
@@ -1161,7 +1201,7 @@ class GameStateManager:
                     self.enemies.remove(enemy)
                 score_val = 15
                 self.add_score(score_val)
-                self.post_event(EnemyHitEvent(enemy.enemy_type, damage_dealt, enemy.x, enemy.y))
+                self.post_event(EnemyHitEvent(enemy.enemy_type, damage_dealt, enemy.x, enemy.y, proj_type="bomb"))
                 self.post_event(EnemyDestroyedEvent(enemy.enemy_type, enemy.x, enemy.y, score_val))
                 safe_popup(f"+{score_val} SYNERGY", enemy.x, enemy.y, color=(0.2, 1.0, 0.5, 1.0), scale=0.40, lifetime=1.2)
                 print(f"[Combat] Interceptor {enemy.enemy_type} downsized via Executive Decision.")

@@ -141,7 +141,7 @@ def _draw_ship(draw: ImageDraw.ImageDraw, points, fill, outline, width=10) -> No
 
 
 def generate_player_damage_sprites(data_dir: Path) -> None:
-    """Generate simple hull-state sprites until curated AI art is supplied."""
+    """Generate simple hull-state sprites until curated production art is supplied."""
     damage_specs = [
         ("player_hull_100.png", 0, (70, 210, 255, 245)),
         ("player_hull_75.png", 1, (90, 230, 190, 245)),

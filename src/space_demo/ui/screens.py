@@ -957,8 +957,14 @@ class GameMenuScreens:
             0.026,
             COLORS.text_primary,
         )
-        self.btn_gameover_restart = self._button(self.gameover_panel.root, "ENGAGE AGAIN", self.on_restart_click, (-0.30, 0, -0.22), "success", "small", width=0.36)
-        self.btn_gameover_menu = self._button(self.gameover_panel.root, "BRIDGE", self.on_menu_click, (0.30, 0, -0.22), "warning", "small", width=0.36)
+        self.btn_gameover_restart = self._button(self.gameover_panel.root, "ENGAGE AGAIN", self.on_restart_click, (-0.30, 0, -0.10), "success", "small", width=0.36)
+        self.btn_gameover_menu = self._button(self.gameover_panel.root, "BRIDGE", self.on_menu_click, (0.30, 0, -0.10), "warning", "small", width=0.36)
+        
+        # Feedback buttons for game-over
+        self.btn_gameover_feedback = self._button(self.gameover_panel.root, "SUBMIT FEEDBACK", self.on_submit_feedback, (-0.40, 0, -0.28), "primary", "small", width=0.34)
+        self.btn_gameover_copy = self._button(self.gameover_panel.root, "COPY SUMMARY", self.on_copy_summary, (0, 0, -0.28), "primary", "small", width=0.34)
+        self.btn_gameover_export = self._button(self.gameover_panel.root, "EXPORT SUMMARY", self.on_export_summary, (0.40, 0, -0.28), "primary", "small", width=0.34)
+
         self.victory_title = self._label(self.victory_panel.root, "DISASTER MANAGED", (0, 0, 0.20), 0.060, COLORS.green)
         self.victory_slogan = self._label(
             self.victory_panel.root,
@@ -967,8 +973,13 @@ class GameMenuScreens:
             0.026,
             COLORS.text_primary,
         )
-        self.btn_victory_restart = self._button(self.victory_panel.root, "FLEE AGAIN", self.on_restart_click, (-0.30, 0, -0.22), "success", "small", width=0.36)
-        self.btn_victory_menu = self._button(self.victory_panel.root, "BRIDGE", self.on_menu_click, (0.30, 0, -0.22), "warning", "small", width=0.36)
+        self.btn_victory_restart = self._button(self.victory_panel.root, "FLEE AGAIN", self.on_restart_click, (-0.30, 0, -0.10), "success", "small", width=0.36)
+        self.btn_victory_menu = self._button(self.victory_panel.root, "BRIDGE", self.on_menu_click, (0.30, 0, -0.10), "warning", "small", width=0.36)
+
+        # Feedback buttons for victory
+        self.btn_victory_feedback = self._button(self.victory_panel.root, "SUBMIT FEEDBACK", self.on_submit_feedback, (-0.40, 0, -0.28), "primary", "small", width=0.34)
+        self.btn_victory_copy = self._button(self.victory_panel.root, "COPY SUMMARY", self.on_copy_summary, (0, 0, -0.28), "primary", "small", width=0.34)
+        self.btn_victory_export = self._button(self.victory_panel.root, "EXPORT SUMMARY", self.on_export_summary, (0.40, 0, -0.28), "primary", "small", width=0.34)
 
     def _build_pause(self) -> None:
         """Build pause overlay."""
@@ -1768,6 +1779,182 @@ class GameMenuScreens:
     def on_quit_click(self) -> None:
         if self.app and hasattr(self.app, "clean_quit"):
             self.app.clean_quit()
+
+    def _gather_feedback_data(self) -> dict:
+        """Gathers safe, anonymous playtest feedback data from the game state."""
+        import space_demo
+        from space_demo import config
+        app = self.app
+        difficulty = "medium"
+        outcome = "unknown"
+        wave_reached = 1
+        survival_time = 0.0
+        near_death_count = 0
+        
+        if app and hasattr(app, "state_mgr") and app.state_mgr:
+            difficulty = getattr(app.state_mgr, "difficulty", "medium")
+            from space_demo.core.ids import GameStateID
+            if app.state_mgr.current_state == GameStateID.VICTORY:
+                outcome = "Victory"
+            elif app.state_mgr.current_state == GameStateID.GAMEOVER:
+                outcome = "Game Over"
+            
+            wave_reached = getattr(app.state_mgr, "wave_index", 1)
+            survival_time = getattr(app.state_mgr, "survival_time", 0.0)
+            near_death_count = getattr(app.state_mgr, "near_death_count", 0)
+
+        import uuid
+        run_id = str(uuid.uuid4())[:8]
+
+        policy = getattr(config, "PRESSURE_DIRECTOR_POLICY", "baseline_observer")
+        capture_gap = getattr(config, "DREADNOUGHT_CAPTURE_GAP", 5.0)
+        return {
+            "build_id": space_demo.__version__,
+            "build_commit": "",
+            "difficulty": difficulty.capitalize(),
+            "outcome": outcome,
+            "wave_reached": str(wave_reached),
+            "survival_time": f"{survival_time:.2f}",
+            "near_death_count": str(near_death_count),
+            "pressure_director_policy": policy,
+            "dreadnought_capture_gap": f"{capture_gap:.1f}",
+            "anonymous_run_id": run_id,
+        }
+
+    def _generate_feedback_url(self, data: dict) -> str:
+        import urllib.parse
+        from space_demo.config import PUBLIC_FEEDBACK_URL
+        
+        qualitative_prefill = (
+            f"[Run Metadata]\n"
+            f"Anonymous Run ID: {data['anonymous_run_id']}\n"
+            f"PRESSURE_DIRECTOR_POLICY: {data['pressure_director_policy']}\n"
+            f"DREADNOUGHT_CAPTURE_GAP: {data['dreadnought_capture_gap']}\n\n"
+            f"[Please describe what felt unfair, confusing, boring, or fun here]"
+        )
+        
+        params = {
+            "template": "playtest_feedback.yml",
+            "build_id": data["build_id"],
+            "difficulty": data["difficulty"],
+            "outcome": data["outcome"],
+            "wave_reached": data["wave_reached"],
+            "survival_time": data["survival_time"],
+            "near_death_count": data["near_death_count"],
+            "qualitative_feedback": qualitative_prefill
+        }
+        
+        query_str = urllib.parse.urlencode(params)
+        return f"{PUBLIC_FEEDBACK_URL}?{query_str}"
+
+    def _generate_markdown_summary(self, data: dict) -> str:
+        return (
+            f"# Playtest Feedback Summary\n\n"
+            f"* **Build ID / Version**: {data['build_id']}\n"
+            f"* **Difficulty**: {data['difficulty']}\n"
+            f"* **Outcome**: {data['outcome']}\n"
+            f"* **Final Wave**: {data['wave_reached']}\n"
+            f"* **Survival Time**: {data['survival_time']}s\n"
+            f"* **Near-Death Count**: {data['near_death_count']}\n"
+            f"* **Anonymous Run ID**: {data['anonymous_run_id']}\n"
+            f"* **PRESSURE_DIRECTOR_POLICY**: {data['pressure_director_policy']}\n"
+            f"* **DREADNOUGHT_CAPTURE_GAP**: {data['dreadnought_capture_gap']}\n"
+        )
+
+    def on_submit_feedback(self) -> None:
+        data = self._gather_feedback_data()
+        url = self._generate_feedback_url(data)
+        
+        # Guard against extremely long URLs (webbrowser open can fail or truncate)
+        if len(url) > 2000:
+            self.on_copy_summary()
+            return
+            
+        import webbrowser
+        try:
+            opened = webbrowser.open(url)
+            if not opened:
+                raise Exception("webbrowser.open returned False")
+            
+            if self.app and hasattr(self.app, "state_mgr"):
+                from space_demo.core.events import NotificationEvent
+                self.app.state_mgr.post_event(NotificationEvent(
+                    title="FEEDBACK FORM OPENED",
+                    message="Review and submit the playtest form in your browser.",
+                    category="info",
+                    severity="info"
+                ))
+        except Exception:
+            # Fallback to copy summary if browser open fails
+            self.on_copy_summary()
+
+    def on_copy_summary(self) -> None:
+        data = self._gather_feedback_data()
+        text = self._generate_markdown_summary(data)
+        
+        # Copy to clipboard
+        copied = False
+        try:
+            base.clipboard = text
+            copied = True
+        except Exception:
+            try:
+                import tkinter as tk
+                root = tk.Tk()
+                root.withdraw()
+                root.clipboard_clear()
+                root.clipboard_append(text)
+                root.update()
+                root.destroy()
+                copied = True
+            except Exception:
+                pass
+                
+        if self.app and hasattr(self.app, "state_mgr"):
+            from space_demo.core.events import NotificationEvent
+            if copied:
+                self.app.state_mgr.post_event(NotificationEvent(
+                    title="SUMMARY COPIED",
+                    message="Feedback copied to clipboard! Paste it into GitHub.",
+                    category="info",
+                    severity="info"
+                ))
+            else:
+                self.app.state_mgr.post_event(NotificationEvent(
+                    title="COPY FAILED",
+                    message="Could not copy to clipboard. Try exporting instead.",
+                    category="warning",
+                    severity="warning"
+                ))
+
+    def on_export_summary(self) -> None:
+        data = self._gather_feedback_data()
+        text = self._generate_markdown_summary(data)
+        
+        exported = False
+        try:
+            with open("playtest_feedback_summary.md", "w", encoding="utf-8") as f:
+                f.write(text)
+            exported = True
+        except Exception:
+            pass
+            
+        if self.app and hasattr(self.app, "state_mgr"):
+            from space_demo.core.events import NotificationEvent
+            if exported:
+                self.app.state_mgr.post_event(NotificationEvent(
+                    title="SUMMARY EXPORTED",
+                    message="Saved to playtest_feedback_summary.md",
+                    category="info",
+                    severity="info"
+                ))
+            else:
+                self.app.state_mgr.post_event(NotificationEvent(
+                    title="EXPORT FAILED",
+                    message="Could not write file. Try copying instead.",
+                    category="warning",
+                    severity="warning"
+                ))
 
     def destroy(self) -> None:
         """Destroy all top-level DirectGUI screen frames."""

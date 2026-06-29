@@ -61,7 +61,7 @@ def resolve_collisions(state_mgr, player):
                 enemy.hp -= dmg
                 
                 # Post hit event
-                state_mgr.post_event(EnemyHitEvent(enemy.enemy_type, dmg, proj.x, proj.y))
+                state_mgr.post_event(EnemyHitEvent(enemy.enemy_type, dmg, proj.x, proj.y, proj_type=proj.proj_type))
                 
                 # Show dynamic damage floating popup
                 if enemy.enemy_type == "boss":

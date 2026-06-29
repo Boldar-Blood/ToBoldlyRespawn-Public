@@ -24,6 +24,7 @@ class EnemyHitEvent(GameEvent):
     damage: int
     x: float
     y: float
+    proj_type: str = "unknown"
 
 @dataclass
 class EnemyDestroyedEvent(GameEvent):

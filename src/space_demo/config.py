@@ -39,3 +39,13 @@ DREADNOUGHT_CRITICAL_GAP = 100.0 # Proximity alarm activates below this threshol
 DREADNOUGHT_CAPTURE_GAP = 5.0 # Captured game-over condition
 DREADNOUGHT_MEDIUM_CAPTURE_GAP = 89.0
 DREADNOUGHT_MAX_HP = 300
+
+# Pressure Director settings (Disabled-by-default live scaffolding)
+PRESSURE_DIRECTOR_POLICY = "baseline_observer"
+PRESSURE_DIRECTOR_EARLY_SOFTENER_THRESHOLD = 120.0
+PRESSURE_DIRECTOR_LOW_SOFTEN_MULT = 0.90
+
+# Public Playtest Feedback settings
+PUBLIC_FEEDBACK_URL = "https://github.com/Boldar-Blood/ToBoldlyRespawn-Public/issues/new"
+
+

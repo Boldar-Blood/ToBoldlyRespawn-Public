@@ -50,7 +50,7 @@ class Enemy:
             return 3
 
     def update(self, dt, player_x=0.0, difficulty="medium"):
-        """Ticks movement coordinates with target-tracking AI and weapons fire timers."""
+        """Ticks movement coordinates with target-tracking autopilot and weapons fire timers."""
         # Standard upward Y movement (chasing the player)
         if self.enemy_type == "boss":
             # Boss Dreadnought climbs up until it reaches Y = -3.0, then hovers there!
@@ -79,7 +79,7 @@ class Enemy:
         else:
             self.y += self.speed * dt
         
-        # 1. Smart Target-Steering AI (tracking player's X coordinate)
+        # 1. Smart Target-Steering Autopilot (tracking player's X coordinate)
         if self.enemy_type == "boss":
             # Boss dreadnought slowly aligns horizontally with the player ship to lay down heavy fire!
             steer_speed = 0.8 if difficulty == "hard" else 0.4
@@ -95,7 +95,7 @@ class Enemy:
             # Hard mode tracking speed is double medium mode tracking speed!
             steer_speed = 3.2 if difficulty == "hard" else 1.5
             
-            # Speeder AI is even more hyperactive!
+            # Speeder autopilot is even more hyperactive!
             if self.enemy_type == "speeder":
                 steer_speed *= 1.3
                 

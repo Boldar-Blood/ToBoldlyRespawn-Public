@@ -59,7 +59,7 @@ This alpha preview starts the `0.3.x` automated gameplay calibration line.
 
 - Updated package version metadata to `0.3.0a1`.
 - Clarified roadmap/version labels so `0.3.x` remains gameplay calibration and `0.4.x` remains progression/playable content.
-- Updated Escape behavior so it exits only from the main menu, backs out of menu subscreens, preserves the settings-save prompt, pauses active play, and resumes from pause.
+- Updated Escape behavior so it exits only from the main menu, backs out of menu subscreens, preserves the settings-save dialog, pauses active play, and resumes from pause.
 - Updated screen construction so owned labels/buttons run through shared text-fitting safeguards.
 
 ### Fixed

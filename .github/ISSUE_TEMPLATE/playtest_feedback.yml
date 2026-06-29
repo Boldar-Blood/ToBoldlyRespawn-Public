@@ -1,0 +1,175 @@
+name: Playtest Feedback
+description: Submit your human playtest feedback for the release candidate.
+title: "[Feedback] Run Summary"
+labels: ["playtest-feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping us test! Please fill out the form below.
+        
+        > [!IMPORTANT]
+        > **CRITICAL WARNING**: Do NOT include real names, emails, IP addresses, machine usernames, local paths with usernames, secrets, or any private/sensitive personal data in this form.
+  - type: input
+    id: build_id
+    attributes:
+      label: Build ID / Version
+      description: The version or build identifier of the game (e.g., 0.3.0a4).
+      placeholder: "e.g., 0.3.0a4"
+    validations:
+      required: true
+  - type: input
+    id: build_commit
+    attributes:
+      label: Release Tag or Build Commit
+      description: The release tag or git commit hash if available.
+      placeholder: "e.g., v0.3.0a4 or c85b920"
+    validations:
+      required: false
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform / OS
+      description: The operating system you ran the game on.
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: input_method
+    attributes:
+      label: Input Method
+      description: The primary input device used.
+      options:
+        - Keyboard
+        - Gamepad
+        - Mouse
+        - Keyboard + Mouse
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty
+      description: The selected game difficulty.
+      options:
+        - Easy
+        - Medium
+        - Hard
+    validations:
+      required: true
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Run Outcome
+      options:
+        - Victory
+        - Game Over
+        - Timeout
+    validations:
+      required: true
+  - type: input
+    id: wave_reached
+    attributes:
+      label: Final Wave Reached
+      description: The wave number at the end of the run (1-4).
+      placeholder: "e.g., 3"
+    validations:
+      required: true
+  - type: input
+    id: survival_time
+    attributes:
+      label: Survival Time (seconds)
+      description: The total time survived in seconds.
+      placeholder: "e.g., 78.4"
+    validations:
+      required: true
+  - type: input
+    id: near_death_count
+    attributes:
+      label: Near-Death Count
+      description: Number of times health fell below 25%.
+      placeholder: "e.g., 2"
+    validations:
+      required: true
+  - type: dropdown
+    id: perceived_difficulty
+    attributes:
+      label: Perceived Difficulty (1-10)
+      description: Rate how difficult the run felt (1 = trivial, 10 = impossible).
+      options:
+        - "1"
+        - "2"
+        - "3"
+        - "4"
+        - "5"
+        - "6"
+        - "7"
+        - "8"
+        - "9"
+        - "10"
+    validations:
+      required: true
+  - type: dropdown
+    id: perceived_fairness
+    attributes:
+      label: Perceived Fairness (1-10)
+      description: Rate how fair the run felt (1 = completely unfair, 10 = completely fair).
+      options:
+        - "1"
+        - "2"
+        - "3"
+        - "4"
+        - "5"
+        - "6"
+        - "7"
+        - "8"
+        - "9"
+        - "10"
+    validations:
+      required: true
+  - type: dropdown
+    id: perceived_tension
+    attributes:
+      label: Perceived Tension/Pacing (1-10)
+      description: Rate the tension/pacing of the run (1 = flat/boring, 10 = extremely tense/engaging).
+      options:
+        - "1"
+        - "2"
+        - "3"
+        - "4"
+        - "5"
+        - "6"
+        - "7"
+        - "8"
+        - "9"
+        - "10"
+    validations:
+      required: true
+  - type: textarea
+    id: qualitative_feedback
+    attributes:
+      label: Qualitative Feedback
+      description: What felt unfair, confusing, boring, or fun? Please be specific.
+      placeholder: "Describe your experience here..."
+    validations:
+      required: false
+  - type: textarea
+    id: bugs_crashes
+    attributes:
+      label: Bugs or Crashes
+      description: Describe any technical issues, frame drops, or crashes encountered.
+      placeholder: "Describe any bugs here..."
+    validations:
+      required: false
+  - type: checkboxes
+    id: privacy_confirmation
+    attributes:
+      label: Privacy & Data Confirmation
+      options:
+        - label: I confirm that I have NOT included any real names, emails, IP addresses, machine usernames, local paths, secrets, or private/sensitive personal data in this feedback.
+          required: true
