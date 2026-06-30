@@ -12,7 +12,7 @@ import math
 import shutil
 from typing import Iterable
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+# PIL imports are done lazily inside functions to avoid module import-time dependency.
 
 
 GENERATED_ASSET_NAMES = {
@@ -64,6 +64,7 @@ def choose_primary_data_dir() -> Path:
 
 
 def _resample_filter():
+    from PIL import Image
     try:
         return Image.Resampling.LANCZOS
     except AttributeError:  # pragma: no cover - older Pillow compatibility.
@@ -88,7 +89,8 @@ def _font_candidates() -> Iterable[Path]:
             yield path
 
 
-def _load_font(size: int) -> ImageFont.ImageFont:
+def _load_font(size: int) -> "ImageFont.ImageFont":
+    from PIL import ImageFont
     for path in _font_candidates():
         try:
             return ImageFont.truetype(str(path), size)
@@ -97,12 +99,14 @@ def _load_font(size: int) -> ImageFont.ImageFont:
     return ImageFont.load_default()
 
 
-def _save_downsampled(img: Image.Image, path: Path, size: tuple[int, int]) -> None:
+def _save_downsampled(img: "Image.Image", path: Path, size: tuple[int, int]) -> None:
+    from PIL import Image
     path.parent.mkdir(parents=True, exist_ok=True)
     img.resize(size, _resample_filter()).save(path, "PNG")
 
 
 def generate_title_banner(data_dir: Path) -> None:
+    from PIL import Image, ImageDraw, ImageFilter, ImageFont
     """Generate a readable title/subtitle banner with cross-platform fonts."""
     size = (4096, 1536)
     img = Image.new("RGBA", size, (0, 0, 0, 0))
@@ -141,6 +145,7 @@ def _draw_ship(draw: ImageDraw.ImageDraw, points, fill, outline, width=10) -> No
 
 
 def generate_player_damage_sprites(data_dir: Path) -> None:
+    from PIL import Image, ImageDraw, ImageFilter, ImageFont
     """Generate simple hull-state sprites until curated production art is supplied."""
     damage_specs = [
         ("player_hull_100.png", 0, (70, 210, 255, 245)),
@@ -220,6 +225,7 @@ def generate_enemy_sprite(data_dir: Path, filename: str, kind: str) -> None:
 
 
 def generate_dreadnought_sprites(data_dir: Path) -> None:
+    from PIL import Image, ImageDraw, ImageFilter, ImageFont
     """Generate multi-phase dreadnought fallback sprites."""
     specs = [
         ("dreadnought_phase_1.png", (255, 160, 60, 240), 0),
@@ -251,6 +257,7 @@ def generate_dreadnought_sprites(data_dir: Path) -> None:
 
 
 def generate_ui_panels(data_dir: Path) -> None:
+    from PIL import Image, ImageDraw, ImageFilter, ImageFont
     """Generate reusable original panel art for future image-backed panels."""
     for filename, color in (
         ("ui_panel_glass.png", (40, 185, 255, 210)),
@@ -269,6 +276,7 @@ def generate_ui_panels(data_dir: Path) -> None:
 
 
 def generate_pursuit_gauge_and_icons(data_dir: Path) -> None:
+    from PIL import Image, ImageDraw, ImageFilter, ImageFont
     """Generate pursuit gauge and mini marker fallbacks."""
     gauge = Image.new("RGBA", (256, 1024), (0, 0, 0, 0))
     glow = Image.new("RGBA", gauge.size, (0, 0, 0, 0))
@@ -298,6 +306,7 @@ def generate_pursuit_gauge_and_icons(data_dir: Path) -> None:
 
 
 def generate_vfx_sprites(data_dir: Path) -> None:
+    from PIL import Image, ImageDraw, ImageFilter, ImageFont
     """Generate transparent VFX sprites for runtime fallback effects."""
     def radial(filename: str, color: tuple[int, int, int], rings: int = 4, size: int = 512) -> None:
         img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
@@ -349,6 +358,22 @@ def generate_extra_assets() -> Path:
     """Generate supplemental Pillow assets and mirror them for package parity."""
     data_dir = choose_primary_data_dir()
     data_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Check if all files in GENERATED_ASSET_NAMES exist in data_dir
+    all_exist = True
+    for filename in GENERATED_ASSET_NAMES:
+        if not (data_dir / filename).exists():
+            all_exist = False
+            break
+    if all_exist:
+        return data_dir
+
+    try:
+        from PIL import Image, ImageDraw, ImageFilter, ImageFont
+    except ImportError as exc:
+        print(f"[GUI Asset] Warning: Pillow is not installed. Skipping extra asset generation: {exc}")
+        return data_dir
+
     generate_title_banner(data_dir)
     generate_player_damage_sprites(data_dir)
     generate_enemy_sprite(data_dir, "enemy_drone.png", "drone")

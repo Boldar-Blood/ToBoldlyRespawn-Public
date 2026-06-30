@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.0a6 - 2026-06-30
+
+This hotfix resolves a critical startup crash in the packaged Windows application.
+
+### Fixed
+
+- Packaged Windows startup crash caused by missing Pillow/PIL runtime modules.
+- Bypassed redundant runtime asset generation when prebuilt assets are already present, avoiding unnecessary PIL imports.
+- Hardened startup branding to fail gracefully with a log warning instead of crashing if Pillow is missing.
+
+### Added
+
+- Automated visible startup smoke test (`--startup-smoke` CLI flag) to verify graphics pipe and window initialization in packaged builds.
+
 ## 0.3.0a5 - 2026-06-29
 
 This alpha preview packages the Phase 4 calibrated pressure baseline and public-safe workflows for controlled human playtesting.

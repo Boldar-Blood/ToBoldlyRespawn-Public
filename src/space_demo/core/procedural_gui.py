@@ -1,16 +1,15 @@
 # Procedural GUI Asset Generator - To Boldly Respawn
 
 import os
-from PIL import Image, ImageDraw, ImageFilter
 
 
-
-def _save_png(image: Image.Image, path: str) -> None:
+def _save_png(image: "Image.Image", path: str) -> None:
     """Save a PNG with transparent pixels normalized to transparent black.
 
     This prevents hidden RGB values under alpha=0 from creating light fringes
     during texture filtering or scaling.
     """
+    from PIL import Image
     image = image.convert("RGBA")
     pixels = image.load()
 
@@ -26,6 +25,30 @@ def generate_gui_assets():
     """Generate procedural fallback GUI, pickup, shield, and VFX assets."""
     # Resolve the data directory inside the workspace
     data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "data"))
+    
+    expected_assets = [
+        "pickup_shield.png", "shield_skin.png", "pickup_bomb.png", "pickup_magnet.png",
+        "pickup_intern.png", "pickup_missile.png", "vfx_muzzle_flash.png", "vfx_explosion_core.png",
+        "vfx_explosion_ring.png", "vfx_smoke_puff.png", "vfx_spark.png", "vfx_shockwave_orange.png",
+        "vfx_shockwave_cyan.png", "title_banner.png", "icon_player_mini.png", "icon_dreadnought_mini.png",
+        "ui_pursuit_gauge.png", "dreadnought_phase_1.png", "dreadnought_phase_2.png", "dreadnought_phase_3.png",
+        "dreadnought_destroyed.png", "player_hull_100.png", "player_hull_75.png", "player_hull_50.png",
+        "player_hull_25.png", "player_hull_critical.png"
+    ]
+    all_exist = True
+    for asset in expected_assets:
+        if not os.path.exists(os.path.join(data_dir, asset)):
+            all_exist = False
+            break
+    if all_exist:
+        return
+
+    try:
+        from PIL import Image, ImageDraw, ImageFilter
+    except ImportError as exc:
+        print(f"[GUI Asset] Warning: Pillow is not installed. Skipping procedural GUI asset generation: {exc}")
+        return
+
     os.makedirs(data_dir, exist_ok=True)
 
     # Determine standard LANCZOS filter compatibility across Pillow versions

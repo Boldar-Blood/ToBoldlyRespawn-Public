@@ -6,6 +6,7 @@ from panda3d.core import loadPrcFileData
 def main():
     parser = argparse.ArgumentParser(description="To Boldly Respawn - A Co-Op Space Disaster")
     parser.add_argument("--headless", action="store_true", help="Run in windowless/headless mode for automated dry-runs and tests.")
+    parser.add_argument("--startup-smoke", action="store_true", help="Run in visible mode, step a few frames, and exit 0.")
     args = parser.parse_args()
 
     if args.headless:
@@ -33,6 +34,12 @@ def main():
             # Tick the simulation once to verify bootstrap stability
             app.step_simulation(0.016)
             print("[System] Headless dry-run completed successfully.")
+            sys.exit(0)
+        elif args.startup_smoke:
+            print("[System] Startup smoke test requested. Stepping 5 frames in visible mode...")
+            for _ in range(5):
+                app.taskMgr.step()
+            print("[System] Startup smoke test completed successfully.")
             sys.exit(0)
         else:
             app.run()

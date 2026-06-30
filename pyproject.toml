@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "space_demo"
-version = "0.3.0a5"
+version = "0.3.0a6"
 description = "To Boldly Respawn: A Co-Op Space Disaster (Flipped Chase Space Shooter RPG Demo)"
 readme = "README.md"
 requires-python = ">=3.11"

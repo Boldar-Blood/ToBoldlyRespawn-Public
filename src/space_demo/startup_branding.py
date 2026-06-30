@@ -142,8 +142,12 @@ def prepare_startup_branding_assets(target_dir: Path | None = None) -> StartupBr
     icon_png = target_dir / "game_icon.png"
     icon_ico = target_dir / "game_icon.ico"
 
-    _make_startup_splash(title_banner, splash_image)
-    _make_icon_from_title(title_banner, icon_png, icon_ico)
+    if not (splash_image.exists() and icon_png.exists() and icon_ico.exists()):
+        try:
+            _make_startup_splash(title_banner, splash_image)
+            _make_icon_from_title(title_banner, icon_png, icon_ico)
+        except Exception as exc:
+            raise ImportError(f"Pillow is required to generate missing startup branding assets: {exc}") from exc
 
     return StartupBrandingAssets(
         title_banner=title_banner,
@@ -159,13 +163,18 @@ def _prc_path(path: Path) -> str:
 
 def build_startup_prc_config(assets: StartupBrandingAssets) -> str:
     """Build the startup configuration string for loadPrcFileData."""
+    lines = [f"window-title {GAME_WINDOW_TITLE}"]
+    
     icon_path = assets.icon_ico if assets.icon_ico.exists() else assets.icon_png
-    lines = [
-        f"window-title {GAME_WINDOW_TITLE}",
-        f"icon-filename {_prc_path(icon_path)}",
-        "splash-window #t",
-        f"splash-filename {_prc_path(assets.splash_image)}",
-    ]
+    if icon_path.exists():
+        lines.append(f"icon-filename {_prc_path(icon_path)}")
+        
+    if assets.splash_image.exists():
+        lines.extend([
+            "splash-window #t",
+            f"splash-filename {_prc_path(assets.splash_image)}",
+        ])
+        
     return "\n".join(lines)
 
 
@@ -174,7 +183,11 @@ def apply_startup_branding(headless: bool = False) -> StartupBrandingAssets | No
     if headless:
         return None
 
-    assets = prepare_startup_branding_assets()
-    config_str = build_startup_prc_config(assets)
-    loadPrcFileData("startup-branding", config_str)
-    return assets
+    try:
+        assets = prepare_startup_branding_assets()
+        config_str = build_startup_prc_config(assets)
+        loadPrcFileData("startup-branding", config_str)
+        return assets
+    except Exception as exc:
+        print(f"[Branding] Startup branding unavailable: {exc}")
+        return None

@@ -21,7 +21,7 @@ _prepare_branding_assets()
 
 setup(
     name="ToBoldlyRespawn",
-    version="0.3.0a5",
+    version="0.3.0a6",
     description="To Boldly Respawn: A Co-Op Space Disaster",
     options={
         "build_apps": {
@@ -38,6 +38,21 @@ setup(
                 "README.md",
                 "CHANGELOG.md",
             ],
+            "include_modules": {
+                "*": [
+                    "PIL",
+                    "PIL._typing",
+                    "PIL.Image",
+                    "PIL.ImageDraw",
+                    "PIL.ImageFilter",
+                    "PIL.ImageFont",
+                    "PIL.ImageColor",
+                    "PIL.ImageOps",
+                    "PIL.PngImagePlugin",
+                    "PIL.IcoImagePlugin",
+                    "PIL._imaging",
+                ],
+            },
             # Main application script entry point
             "gui_apps": {
                 "ToBoldlyRespawn": "src/space_demo/main.py",
